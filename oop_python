@@ -1,0 +1,85 @@
+class Car:
+    def __init__(self, manufacturer, model, year, mileage, engine, transmission, drivetrain, mpg, exterior_color, interior_color, accident, price):
+        """Initialize a new Car instance with the given attributes."""
+        self.manufacturer = manufacturer
+        self.model = model
+        self.year = year
+        self.mileage = mileage
+        self.engine = engine
+        self.transmission = transmission
+        self.drivetrain = drivetrain
+        self.mpg = mpg
+        self.exterior_color = exterior_color
+        self.interior_color = interior_color
+        self.accident = accident
+        self.price = price
+
+    def Paint(self, color_name):
+        """Change the exterior color of the car."""
+        self.exterior_color = color_name
+
+    def Repair(self, part_name, replacement_part):
+        """Replace a specific part with a new one."""
+        if part_name == "engine":
+            self.engine = replacement_part
+        elif part_name == "transmission":
+            self.transmission = replacement_part
+        elif part_name == "drivetrain":
+            self.drivetrain = replacement_part
+        else:
+            raise ValueError(f"Unknown part: {part_name}")
+
+    def Reupholster(self, color_name):
+        """Change the interior color of the car."""
+        self.interior_color = color_name
+
+    def Drive(self, miles):
+        """Increase the mileage of the car by the given amount."""
+        if miles > 0:
+            self.mileage += miles
+        else:
+            raise ValueError("Mileage increase must be positive.")
+
+    def Modify_Price(self, new_price):
+        """Update the car price. If new_price is less than 1, discount the price."""
+        if new_price < 1:
+            discounted_price = self.price - new_price
+            print(f"New discounted price: ${discounted_price:.2f}")
+            confirmation = input("Is this the correct amount? (yes/no): ").strip().lower()
+            if confirmation != 'yes':
+                return "Price modification canceled."
+            self.price = discounted_price
+        else:
+            self.price = new_price
+        return self.price
+
+    def __repr__(self):
+        return (f"Car(manufacturer={self.manufacturer}, model={self.model}, year={self.year}, mileage={self.mileage}, "
+                f"engine={self.engine}, transmission={self.transmission}, drivetrain={self.drivetrain}, mpg={self.mpg}, "
+                f"exterior_color={self.exterior_color}, interior_color={self.interior_color}, accident={self.accident}, "
+                f"price={self.price})")
+
+#sellerclass
+class Seller:
+    def __init__(self, name, rating):
+        """Initialize a new Seller instance with the given attributes."""
+        self.name = name
+        self.rating = rating
+        self.inventory = []
+
+    def Buy(self, car):
+        """Add a Car to the Seller's inventory if it's not already there."""
+        if car not in self.inventory:
+            self.inventory.append(car)
+        else:
+            raise ValueError("Car is already in inventory.")
+
+    def Sell(self, car):
+        """Remove a Car from the Seller's inventory."""
+        if car in self.inventory:
+            self.inventory.remove(car)
+        else:
+            raise ValueError("Car not found in inventory.")
+
+    def __repr__(self):
+        return f"Seller(name={self.name}, rating={self.rating}, inventory={self.inventory})"
